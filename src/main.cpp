@@ -8,12 +8,12 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {1, 2, 3},     // Left Chassis Ports (negative port will reverse it!)
-    {-4, -5, -6},  // Right Chassis Ports (negative port will reverse it!)
+    {4, -5, -13},     // Left Chassis Ports (negative port will reverse it!)
+    {-11, 2, 3},  // Right Chassis Ports (negative port will reverse it!)
 
-    7,      // IMU Port
-    4.125,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-    343);   // Wheel RPM = cartridge * (motor gear / wheel gear)
+    20,      // IMU Port
+    3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
+    360);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 // Uncomment the trackers you're using here!
 // - `8` and `9` are smart ports (making these negative will reverse the sensor)
@@ -58,6 +58,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+      {"AUTO\n\nTEST_1", auto_test_1},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
@@ -77,6 +78,7 @@ void initialize() {
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
+  claw.retract();
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
 
@@ -155,6 +157,8 @@ void screen_print_tracker(ez::tracking_wheel *tracker, std::string name, int lin
  * and will help you debug problems you're having
  */
 void ez_screen_task() {
+  // master.rumble("---");
+  master.clear();
   while (true) {
     // Only run this when not connected to a competition switch
     if (!pros::competition::is_connected()) {
@@ -182,8 +186,13 @@ void ez_screen_task() {
       if (ez::as::page_blank_amount() > 0)
         ez::as::page_blank_remove_all();
     }
-
-    pros::delay(ez::util::DELAY_TIME);
+    master.print(0, 0, "IMU: %.1f",chassis.drive_imu_get());
+    pros::delay(50);
+    master.print(1, 0, "Left: %.1f",chassis.drive_sensor_left());
+    pros::delay(50);
+    master.print(2, 0, "Right: %.1f",chassis.drive_sensor_right());
+    pros::delay(50);
+    // pros::delay(ez::util::DELAY_TIME);
   }
 }
 pros::Task ezScreenTask(ez_screen_task);
@@ -247,12 +256,18 @@ void opcontrol() {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
 
-    chassis.opcontrol_tank();  // Tank control
-    // chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
+    // chassis.opcontrol_tank();  // Tank control
+    chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
-
+    if(master.get_digital_new_press(DIGITAL_A)) {
+      chassis.pid_targets_reset();                // Resets PID targets to 0
+      chassis.drive_imu_reset();                  // Reset gyro position to 0
+      chassis.drive_sensor_reset();               // Reset drive sensors to 0
+      chassis.odom_xyt_set(0_in, 0_in, 0_deg);    // Set the current position, you can start at a specific position with this
+      chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
+    }
     // . . .
     // Put more user control code here!
     // . . .
