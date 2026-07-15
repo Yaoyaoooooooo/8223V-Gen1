@@ -21,3 +21,5 @@ void Route_A_Front();
 void Route_A_Side();
 void Route_B_Front();
 void Route_B_Side();
+
+void test();

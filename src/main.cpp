@@ -8,7 +8,7 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {4, -5, -13},     // Left Chassis Ports (negative port will reverse it!)
+    {4, -5, -18},     // Left Chassis Ports (negative port will reverse it!)
     {-11, 2, 3},  // Right Chassis Ports (negative port will reverse it!)
 
     20,      // IMU Port
@@ -62,6 +62,7 @@ void initialize() {
       {"Route A - Side", Route_A_Side},
       {"Route B - Front", Route_B_Front},
       {"Route B - Side", Route_B_Side},
+      {"Test", test},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
@@ -124,6 +125,8 @@ void autonomous() {
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);    // Set the current position, you can start at a specific position with this
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
+  chassis.drive_set(0,0);
+  chassis.pid_drive_toggle(true);
 
   /*
   Odometry and Pure Pursuit are not magic
@@ -254,13 +257,15 @@ void ez_template_extras() {
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+  Lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
 
     // chassis.opcontrol_tank();  // Tank control
-    chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
+    // chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
@@ -268,6 +273,21 @@ void opcontrol() {
     // . . .
     // Put more user control code here!
     // . . .
+
+    int LeftY = master.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
+    int RightX = master.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    if (std::abs(LeftY) < 5) LeftY = 0;
+    if (std::abs(RightX) < 5) RightX = 0;
+
+    int Left_Speed, Right_Speed;
+    if(LeftY!=0&&RightX!=0){
+      Left_Speed = LeftY + RightX*0.25;
+      Right_Speed = LeftY - RightX*0.25;
+    }else{
+      Left_Speed = LeftY + RightX*0.78;
+      Right_Speed = LeftY + RightX*0.78;
+    }
+    chassis.drive_set(Left_Speed, Right_Speed);
 
     //Manual Reset IMU，Left&Right Motor
     if(master.get_digital_new_press(DIGITAL_Y)) {
@@ -287,7 +307,15 @@ void opcontrol() {
       Lift.move(0);
     }
 
+    //R1 contral Claw
+    if(master.get_digital_new_press(DIGITAL_R1)) claw.toggle();
 
+    //R2 contral Roller
+    if(master.get_digital(DIGITAL_R2)) {
+      Roller.move(127);
+    }else{
+      Roller.move(0);
+    }
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
