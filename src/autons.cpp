@@ -10,6 +10,108 @@ const int DRIVE_SPEED = 110;
 const int TURN_SPEED = 90;
 const int SWING_SPEED = 110;
 
+//My Route
+
+void Route_A_Front(){
+
+  //1.init subsystem's motor brake mode
+  Lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  Intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
+  //2.turn the roller to allience's color
+  Roller.move_relative(360*2, 127);
+  while (std::fabs(
+      Roller.get_target_position() -
+      Roller.get_position()) > 5.0) {
+    pros::delay(20);
+  }
+
+  //3.Put the pre-installed pin into the allience goal
+  chassis.pid_drive_set(19_in, DRIVE_SPEED);
+  Lift_move(360*2.5,false);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(9_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.drive_set(80,80);
+  Lift_move(360*(-1.6));
+  claw.extend();
+  chassis.drive_set(0,0);
+  chassis.pid_drive_toggle(true);
+  pros::delay(100);
+
+  //4.move back and get the second pin with the cup
+  chassis.pid_drive_set(-11.5_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  
+  chassis.pid_turn_relative_set(-53_deg, TURN_SPEED);
+  chassis.pid_wait();
+  Lift_move_to(0,0);
+  chassis.pid_drive_set(15_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(5.5_in, 50);
+  chassis.pid_wait();
+  claw.retract();
+  pros::delay(200);
+
+  //5.put the second pin and cup into the allience goal
+  chassis.pid_turn_relative_set(117_deg, TURN_SPEED);
+  Lift_move(360*5,false);
+  chassis.pid_wait();
+  chassis.pid_drive_set(8_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(4_in, 50);
+  chassis.pid_wait();
+  Lift_move(-360*1.5);
+  claw.extend();
+
+  //6.move back and get the third pin with the cup
+  chassis.pid_drive_set(-14_in, DRIVE_SPEED);
+  Lift_move_to(0,0);
+  chassis.pid_wait();
+
+  chassis.pid_turn_relative_set(-33_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(24_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(5_in, 50);
+  chassis.pid_wait();
+
+  claw.retract();
+  pros::delay(200);
+
+  //7.put the third pin and cup into the neutral goal
+  chassis.pid_drive_set(-26_in, DRIVE_SPEED);
+  Lift_move(360*7,false);
+  chassis.pid_wait();
+
+  chassis.pid_turn_relative_set(122_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(32_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(34_in, 50);
+  chassis.pid_wait();
+
+  chassis.drive_set(80,80);
+  Lift_move(-360*1.5);
+  claw.extend();
+  chassis.drive_set(0,0);
+  chassis.pid_drive_toggle(true);
+  pros::delay(100);
+  
+  //8.move back 10in and prepare for the driver control
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED);
+  chassis.pid_wait();
+
+}
+
+
 ///
 // Constants
 ///
@@ -371,24 +473,6 @@ void measure_offsets() {
   if (chassis.odom_tracker_right != nullptr) chassis.odom_tracker_right->distance_to_center_set(r_offset);
   if (chassis.odom_tracker_back != nullptr) chassis.odom_tracker_back->distance_to_center_set(b_offset);
   if (chassis.odom_tracker_front != nullptr) chassis.odom_tracker_front->distance_to_center_set(f_offset);
-}
-
-void auto_test_1(){
-  Roller.move_relative(360*3, 127);
-  while (std::fabs(
-      Roller.get_target_position() -
-      Roller.get_position()) > 5.0) {
-    pros::delay(20);
-  }
-
-  chassis.pid_drive_set(15_in, DRIVE_SPEED);
-  Lift.move_relative(360, 127);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-
 }
 
 // . . .

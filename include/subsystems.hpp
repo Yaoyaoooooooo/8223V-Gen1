@@ -14,3 +14,29 @@ inline pros::MotorGroup Lift({1,-7},pros::MotorGearset::green);
 inline pros::Motor Roller(9,pros::MotorGearset::green);
 inline pros::Motor Intake(21,pros::MotorGearset::green);
 inline pros::adi::Pneumatics claw('H', false);
+
+
+inline double Lift_target = 0;
+inline void Lift_move(int target, bool wait=true){
+    Lift_target+=target;
+    Lift.move_relative(target, 127);
+    if (!wait) return;
+    int start_time = pros::millis();
+    while (std::fabs(Lift_target - Lift.get_position()) > 5.0) {
+        if(pros::millis() - start_time > 1000)
+            break;
+        pros::delay(20);
+    } 
+}
+
+inline void Lift_move_to(int target, bool wait=true){
+    Lift_target=target;
+    Lift.move_absolute(target, 127);
+    if (!wait) return;
+    int start_time = pros::millis();
+    while (std::fabs(Lift_target - Lift.get_position()) > 5.0) {
+        if(pros::millis() - start_time > 1000)
+            break;
+        pros::delay(20);
+    } 
+}

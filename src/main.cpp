@@ -58,7 +58,10 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"AUTO\n\nTEST_1", auto_test_1},
+      {"Route A - Front", Route_A_Front},
+      {"Route A - Side", Route_A_Side},
+      {"Route B - Front", Route_B_Front},
+      {"Route B - Side", Route_B_Side},
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
       {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
@@ -261,16 +264,30 @@ void opcontrol() {
     // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
     // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
     // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
-    if(master.get_digital_new_press(DIGITAL_A)) {
+
+    // . . .
+    // Put more user control code here!
+    // . . .
+
+    //Manual Reset IMU，Left&Right Motor
+    if(master.get_digital_new_press(DIGITAL_Y)) {
       chassis.pid_targets_reset();                // Resets PID targets to 0
       chassis.drive_imu_reset();                  // Reset gyro position to 0
       chassis.drive_sensor_reset();               // Reset drive sensors to 0
       chassis.odom_xyt_set(0_in, 0_in, 0_deg);    // Set the current position, you can start at a specific position with this
       chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
     }
-    // . . .
-    // Put more user control code here!
-    // . . .
+
+    // L1&2 contral Lift
+    if(master.get_digital(DIGITAL_L1)) {
+      Lift.move(127);
+    }else if(master.get_digital(DIGITAL_L2)) {
+      Lift.move(-127);
+    }else{
+      Lift.move(0);
+    }
+
+
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
