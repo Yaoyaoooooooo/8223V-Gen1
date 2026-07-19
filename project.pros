@@ -424,8 +424,8 @@
       }
     },
     "upload_options": {
-      "description": "roboticsisez.coma",
-      "slot": 2,
+      "description": "roboticsisez.com",
+      "slot": 1,
       "icon": "pros"
     },
     "use_early_access": false

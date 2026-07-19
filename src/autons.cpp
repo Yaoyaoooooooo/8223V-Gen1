@@ -27,7 +27,7 @@ void Route_A_Front(){
   }
 
   //3.Put the pre-installed pin into the allience goal
-  chassis.pid_drive_set(17_in, DRIVE_SPEED);
+  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
   Lift_move(360*2.5,false);
   chassis.pid_wait();
 
@@ -37,7 +37,7 @@ void Route_A_Front(){
   chassis.pid_drive_set(9_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.drive_set(80,80);
-  Lift_move(360*(-1.6));
+  Lift_move(360*(-1.0));
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -47,9 +47,9 @@ void Route_A_Front(){
   chassis.pid_drive_set(-11.5_in, DRIVE_SPEED);
   chassis.pid_wait();
   
-  chassis.pid_turn_relative_set(-55_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(-53_deg, TURN_SPEED);
   chassis.pid_wait();
-  Lift_move_to(0,0);
+  Lift_move_to(2*360,0);
   chassis.pid_drive_set(16_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(6_in, 30);
@@ -58,7 +58,7 @@ void Route_A_Front(){
   pros::delay(200);
 
   //5.put the second pin and cup into the allience goal
-  chassis.pid_turn_relative_set(130_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(128_deg, TURN_SPEED);
   Lift_move(360*5,false);
   chassis.pid_wait();
   chassis.pid_drive_set(8_in, DRIVE_SPEED);
@@ -70,15 +70,15 @@ void Route_A_Front(){
 
   //6.move back and get the third pin with the cup
   chassis.pid_drive_set(-14_in, DRIVE_SPEED);
-  Lift_move_to(0,0);
+  Lift_move_to(2*360,0);
   chassis.pid_wait();
 
   chassis.pid_turn_relative_set(-41_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(24_in, DRIVE_SPEED);
+  chassis.pid_drive_set(24_in, 80);
   chassis.pid_wait();
-  chassis.pid_drive_set(5_in, 50);
+  chassis.pid_drive_set(5_in, 30);
   chassis.pid_wait();
 
   claw.retract();
@@ -89,7 +89,7 @@ void Route_A_Front(){
   Lift_move(360*7,false);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(123_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(121_deg, TURN_SPEED);
   chassis.pid_wait();
 
   chassis.pid_drive_set(34_in, DRIVE_SPEED);
@@ -124,7 +124,7 @@ void Route_A_Side(){
   }
 
   //3.Put the pre-installed pin into the allience goal
-  chassis.pid_drive_set(17_in, DRIVE_SPEED);
+  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
   Lift_move(360*2.5,false);
   chassis.pid_wait();
 
@@ -134,7 +134,7 @@ void Route_A_Side(){
   chassis.pid_drive_set(9_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.drive_set(80,80);
-  Lift_move(360*(-1.6));
+  Lift_move(360*(-1.0));
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -144,9 +144,9 @@ void Route_A_Side(){
   chassis.pid_drive_set(-11.5_in, DRIVE_SPEED);
   chassis.pid_wait();
   
-  chassis.pid_turn_relative_set(55_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(53_deg, TURN_SPEED);
   chassis.pid_wait();
-  Lift_move_to(0,0);
+  Lift_move_to(2*360,0);
   chassis.pid_drive_set(16_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(6_in, 30);
@@ -155,7 +155,7 @@ void Route_A_Side(){
   pros::delay(200);
 
   //5.put the second pin and cup into the allience goal
-  chassis.pid_turn_relative_set(-130_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(-128_deg, TURN_SPEED);
   Lift_move(360*5,false);
   chassis.pid_wait();
   chassis.pid_drive_set(8_in, DRIVE_SPEED);
@@ -167,15 +167,15 @@ void Route_A_Side(){
 
   //6.move back and get the third pin with the cup
   chassis.pid_drive_set(-14_in, DRIVE_SPEED);
-  Lift_move_to(0,0);
+  Lift_move_to(2*360,0);
   chassis.pid_wait();
 
   chassis.pid_turn_relative_set(41_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(24_in, DRIVE_SPEED);
+  chassis.pid_drive_set(24_in, 80);
   chassis.pid_wait();
-  chassis.pid_drive_set(5_in, 50);
+  chassis.pid_drive_set(5_in, 30);
   chassis.pid_wait();
 
   claw.retract();
@@ -186,7 +186,7 @@ void Route_A_Side(){
   Lift_move(360*7,false);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(-123_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(-121_deg, TURN_SPEED);
   chassis.pid_wait();
 
   chassis.pid_drive_set(34_in, DRIVE_SPEED);
@@ -221,7 +221,7 @@ void Route_B_Front(){
   }
 
   //3.Put the pre-installed pin into the neutral goal
-  chassis.pid_drive_set(17_in, DRIVE_SPEED);
+  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
   Lift_move(360*2.5,false);
   chassis.pid_wait();
 
@@ -246,7 +246,7 @@ void Route_B_Front(){
   chassis.pid_wait();
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(3_in, 50);
+  chassis.pid_drive_set(4_in, 35);
   chassis.pid_wait();
 
   chassis.pid_swing_relative_set(ez::LEFT_SWING, 45_deg, SWING_SPEED);
@@ -257,7 +257,7 @@ void Route_B_Front(){
   Lift_move(360*1);
 
   chassis.drive_set(127,127);
-  pros::delay(250);
+  pros::delay(500);
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
 
@@ -269,9 +269,9 @@ void Route_B_Front(){
   Lift_move_to(360*8);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(29_in, 50);
+  chassis.pid_drive_set(34_in, 50);
   chassis.pid_wait();
-  chassis.pid_drive_set(4_in, 30);
+  chassis.pid_drive_set(6_in, 30);
   chassis.pid_wait();
 
   chassis.drive_set(80,80);
@@ -279,9 +279,9 @@ void Route_B_Front(){
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
-  pros::delay(100);
+  pros::delay(300);
 
-  //8.move back 15in and prepare for the driver control
+  //6.move back 15in and prepare for the driver control
   chassis.pid_drive_set(-15_in, DRIVE_SPEED);
   chassis.pid_wait();
 
@@ -301,7 +301,7 @@ void Route_B_Side(){
   }
 
   //3.Put the pre-installed pin into the neutral goal
-  chassis.pid_drive_set(17_in, DRIVE_SPEED);
+  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
   Lift_move(360*2.5,false);
   chassis.pid_wait();
 
@@ -326,14 +326,11 @@ void Route_B_Side(){
   chassis.pid_wait();
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(3_in, 50);
+  chassis.pid_drive_set(4_in, 35);
   chassis.pid_wait();
 
-  chassis.pid_swing_relative_set(
-      ez::RIGHT_SWING,
-      -45_deg,
-      SWING_SPEED
-  );
+
+  chassis.pid_swing_relative_set(ez::RIGHT_SWING, -45_deg, SWING_SPEED);
   pros::delay(800);
   
   claw.retract();
@@ -341,7 +338,7 @@ void Route_B_Side(){
   Lift_move(360*1);
 
   chassis.drive_set(127,127);
-  pros::delay(250);
+  pros::delay(500);
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
 
@@ -353,9 +350,9 @@ void Route_B_Side(){
   Lift_move_to(360*8);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(29_in, 50);
+  chassis.pid_drive_set(34_in, 50);
   chassis.pid_wait();
-  chassis.pid_drive_set(4_in, 30);
+  chassis.pid_drive_set(6_in, 30);
   chassis.pid_wait();
 
   chassis.drive_set(80,80);
@@ -363,9 +360,9 @@ void Route_B_Side(){
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
-  pros::delay(100);
+  pros::delay(300);
 
-  //8.move back 15in and prepare for the driver control
+  //6.move back 15in and prepare for the driver control
   chassis.pid_drive_set(-15_in, DRIVE_SPEED);
   chassis.pid_wait();
 }
@@ -384,9 +381,9 @@ void test(){
 ///
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(20.0, 0.0, 100.0);         // Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_drive_constants_set(20.0, 0.0, 115.0);         // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
-  chassis.pid_turn_constants_set(3.0, 0.00, 13.5, 20.0);     // Turn in place constants
+  chassis.pid_turn_constants_set(3.0, 0.00, 12.0 , 20.0);     // Turn in place constants
   chassis.pid_swing_constants_set(3.0, 0.0, 13.5);           // Swing constants
   chassis.pid_odom_angular_constants_set(6.5, 0.0, 52.5);    // Angular control for odom motions
   chassis.pid_odom_boomerang_constants_set(5.8, 0.0, 32.5);  // Angular control for boomerang motions
@@ -429,11 +426,11 @@ void drive_example() {
   chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-12_in, DRIVE_SPEED);
-  chassis.pid_wait();
+  // chassis.pid_drive_set(-12_in, DRIVE_SPEED);
+  // chassis.pid_wait();
 
-  chassis.pid_drive_set(-12_in, DRIVE_SPEED);
-  chassis.pid_wait();
+  // chassis.pid_drive_set(-12_in, DRIVE_SPEED);
+  // chassis.pid_wait();
 }
 
 ///
@@ -446,11 +443,11 @@ void turn_example() {
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_turn_set(45_deg, TURN_SPEED);
-  chassis.pid_wait();
+  // chassis.pid_turn_set(45_deg, TURN_SPEED);
+  // chassis.pid_wait();
 
-  chassis.pid_turn_set(0_deg, TURN_SPEED);
-  chassis.pid_wait();
+  // chassis.pid_turn_set(0_deg, TURN_SPEED);
+  // chassis.pid_wait();
 }
 
 ///

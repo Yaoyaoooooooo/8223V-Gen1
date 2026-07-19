@@ -8,8 +8,8 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {4, -5, -18},     // Left Chassis Ports (negative port will reverse it!)
-    {-11, 2, 3},  // Right Chassis Ports (negative port will reverse it!)
+    {5, -1, -18},     // Left Chassis Ports (negative port will reverse it!)
+    {-11, 3, 4},  // Right Chassis Ports (negative port will reverse it!)
 
     20,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
@@ -83,6 +83,7 @@ void initialize() {
   chassis.initialize();
   ez::as::initialize();
   claw.retract();
+  Lift.tare_position_all();
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
 }
 
@@ -127,6 +128,7 @@ void autonomous() {
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
+  Lift.tare_position_all();
 
   /*
   Odometry and Pure Pursuit are not magic
@@ -193,10 +195,11 @@ void ez_screen_task() {
         ez::as::page_blank_remove_all();
     }
     master.print(0, 0, "IMU: %.1f",chassis.drive_imu_get());
-    pros::delay(50);
+    pros::delay(50);  
     master.print(1, 0, "Left: %.1f",chassis.drive_sensor_left());
     pros::delay(50);
-    master.print(2, 0, "Right: %.1f",chassis.drive_sensor_right());
+    // master.print(2, 0, "Right: %.1f",chassis.drive_sensor_right());
+    master.print(2, 0, "Lift: %.1f",Lift.get_position());
     pros::delay(50);
     // pros::delay(ez::util::DELAY_TIME);
   }
@@ -281,11 +284,11 @@ void opcontrol() {
 
     int Left_Speed, Right_Speed;
     if(LeftY!=0&&RightX!=0){
-      Left_Speed = LeftY + RightX*0.25;
-      Right_Speed = LeftY - RightX*0.25;
-    }else{
       Left_Speed = LeftY + RightX*0.78;
-      Right_Speed = LeftY + RightX*0.78;
+      Right_Speed = LeftY - RightX*0.78;
+    }else{
+      Left_Speed = LeftY + RightX*0.5;
+      Right_Speed = LeftY - RightX*0.5;
     }
     chassis.drive_set(Left_Speed, Right_Speed);
 
@@ -316,6 +319,9 @@ void opcontrol() {
     }else{
       Roller.move(0);
     }
+
+    //A contral wings
+    if(master.get_digital_new_press(DIGITAL_A)) wings.toggle();
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }

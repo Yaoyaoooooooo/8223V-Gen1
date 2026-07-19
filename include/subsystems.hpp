@@ -10,9 +10,10 @@ extern Drive chassis;
 // inline pros::Motor intake(1);
 // inline pros::adi::DigitalIn limit_switch('A');
 
-inline pros::MotorGroup Lift({1,-7},pros::MotorGearset::green);
-inline pros::Motor Roller(9,pros::MotorGearset::green);
+inline pros::MotorGroup Lift({21,-2},pros::MotorGearset::green);
+inline pros::Motor Roller(6,pros::MotorGearset::green);
 inline pros::adi::Pneumatics claw('H', false);
+inline pros::adi::Pneumatics wings('G', false);
 
 
 inline double Lift_target = 0;
