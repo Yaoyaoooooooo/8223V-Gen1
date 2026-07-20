@@ -8,7 +8,7 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {5, -1, -18},     // Left Chassis Ports (negative port will reverse it!)
+    {5, -1, -16},     // Left Chassis Ports (negative port will reverse it!)
     {-11, 3, 4},  // Right Chassis Ports (negative port will reverse it!)
 
     20,      // IMU Port
@@ -330,12 +330,14 @@ void opcontrol() {
     if(master.get_digital_new_press(DIGITAL_R1)) claw.toggle();
 
     //R2 contral Roller
-    if(master.get_digital(DIGITAL_R2)&&!l2_r2_combo_used) {
-      Roller.move(127);
-    }else {
-      Roller.move(0);
+    // if(master.get_digital(DIGITAL_R2)&&!l2_r2_combo_used) {
+    //   Roller.move(100);
+    // }else {
+    //   Roller.move(0);
+    // }
+    if(master.get_digital_new_press(DIGITAL_R2)&&!l2_r2_combo_used) {
+      Roller.move_relative(180*2.5, 127);
     }
-
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
