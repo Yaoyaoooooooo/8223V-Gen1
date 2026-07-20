@@ -252,7 +252,6 @@ void Route_B_Front(){
   chassis.pid_swing_relative_set(ez::LEFT_SWING, 45_deg, SWING_SPEED);
   pros::delay(800);
   
-  claw.retract();
   pros::delay(100);
   Lift_move(360*1);
 
@@ -260,6 +259,8 @@ void Route_B_Front(){
   pros::delay(500);
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
+  claw.retract();
+  pros::delay(250);
 
   //5.put the second pin and cup into the allience goal
   chassis.pid_drive_set(-5.5_in, DRIVE_SPEED);
@@ -333,7 +334,6 @@ void Route_B_Side(){
   chassis.pid_swing_relative_set(ez::RIGHT_SWING, -45_deg, SWING_SPEED);
   pros::delay(800);
   
-  claw.retract();
   pros::delay(100);
   Lift_move(360*1);
 
@@ -341,6 +341,8 @@ void Route_B_Side(){
   pros::delay(500);
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
+  claw.retract();
+  pros::delay(250);
 
   //5.put the second pin and cup into the allience goal
   chassis.pid_drive_set(-5.5_in, DRIVE_SPEED);

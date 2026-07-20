@@ -301,12 +301,28 @@ void opcontrol() {
       chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
     }
 
+    static bool l2_r2_combo_used = false;
+
+    bool l2_pressed = master.get_digital(DIGITAL_L2);
+    bool r2_pressed = master.get_digital(DIGITAL_R2);
+
+    // L2 + R2 control wings
+    if (l2_pressed && r2_pressed && !l2_r2_combo_used) {
+      l2_r2_combo_used = true;
+      wings.toggle();
+    }
+
+    // Reset after both buttons are released
+    if (!l2_pressed && !r2_pressed) {
+      l2_r2_combo_used = false;
+    }
+
     // L1&2 contral Lift
     if(master.get_digital(DIGITAL_L1)) {
       Lift.move(127);
-    }else if(master.get_digital(DIGITAL_L2)) {
+    }else if(master.get_digital(DIGITAL_L2) && !l2_r2_combo_used) {
       Lift.move(-127);
-    }else{
+    }else {
       Lift.move(0);
     }
 
@@ -314,14 +330,12 @@ void opcontrol() {
     if(master.get_digital_new_press(DIGITAL_R1)) claw.toggle();
 
     //R2 contral Roller
-    if(master.get_digital(DIGITAL_R2)) {
+    if(master.get_digital(DIGITAL_R2)&&!l2_r2_combo_used) {
       Roller.move(127);
-    }else{
+    }else {
       Roller.move(0);
     }
 
-    //A contral wings
-    if(master.get_digital_new_press(DIGITAL_A)) wings.toggle();
 
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
