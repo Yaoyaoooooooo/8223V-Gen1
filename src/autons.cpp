@@ -246,7 +246,7 @@ void Route_B_Front(){
   chassis.pid_wait();
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(4_in, 35);
+  chassis.pid_drive_set(4.5_in, 30);
   chassis.pid_wait();
 
   chassis.pid_swing_relative_set(ez::LEFT_SWING, 45_deg, SWING_SPEED);
@@ -329,7 +329,7 @@ void Route_B_Side(){
   chassis.pid_wait();
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(4_in, 35);
+  chassis.pid_drive_set(4.5_in, 30);
   chassis.pid_wait();
 
 
