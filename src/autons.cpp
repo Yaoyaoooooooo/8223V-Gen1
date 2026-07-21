@@ -47,7 +47,7 @@ void Route_A_Front(){
   chassis.pid_drive_set(-11.5_in, DRIVE_SPEED);
   chassis.pid_wait();
   
-  chassis.pid_turn_relative_set(-53_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(-52.5_deg, TURN_SPEED);
   chassis.pid_wait();
   Lift_move_to(2*360,0);
   chassis.pid_drive_set(16_in, DRIVE_SPEED);
@@ -59,7 +59,7 @@ void Route_A_Front(){
 
   //5.put the second pin and cup into the allience goal
   chassis.pid_turn_relative_set(128_deg, TURN_SPEED);
-  Lift_move(360*5,false);
+  Lift_move(360*5.5,false);
   chassis.pid_wait();
   chassis.pid_drive_set(8_in, DRIVE_SPEED);
   chassis.pid_wait();
@@ -124,7 +124,7 @@ void Route_A_Side(){
   }
 
   //3.Put the pre-installed pin into the allience goal
-  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
+  chassis.pid_drive_set(18_in, DRIVE_SPEED);
   Lift_move(360*2.5,false);
   chassis.pid_wait();
 
@@ -144,7 +144,7 @@ void Route_A_Side(){
   chassis.pid_drive_set(-11.5_in, DRIVE_SPEED);
   chassis.pid_wait();
   
-  chassis.pid_turn_relative_set(53_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(52.5_deg, TURN_SPEED);
   chassis.pid_wait();
   Lift_move_to(2*360,0);
   chassis.pid_drive_set(16_in, DRIVE_SPEED);
@@ -156,7 +156,7 @@ void Route_A_Side(){
 
   //5.put the second pin and cup into the allience goal
   chassis.pid_turn_relative_set(-128_deg, TURN_SPEED);
-  Lift_move(360*5,false);
+  Lift_move(360*5.5,false);
   chassis.pid_wait();
   chassis.pid_drive_set(8_in, DRIVE_SPEED);
   chassis.pid_wait();
@@ -246,7 +246,7 @@ void Route_B_Front(){
   chassis.pid_wait();
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(4.5_in, 30);
+  chassis.pid_drive_set(5.5_in, 30);
   chassis.pid_wait();
 
   chassis.pid_swing_relative_set(ez::LEFT_SWING, 45_deg, SWING_SPEED);
@@ -263,6 +263,13 @@ void Route_B_Front(){
   chassis.pid_drive_toggle(true);
   claw.retract();
   pros::delay(250);
+  Lift_move(360*1);
+  chassis.pid_drive_set(-2_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.drive_set(127,127);
+  pros::delay(250);
+  chassis.drive_set(0,0);
+  chassis.pid_drive_toggle(true);
 
   //5.put the second pin and cup into the allience goal
   chassis.pid_drive_set(-5.5_in, DRIVE_SPEED);
@@ -272,9 +279,9 @@ void Route_B_Front(){
   Lift_move_to(360*8);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(34_in, 50);
+  chassis.pid_drive_set(34_in, 70);
   chassis.pid_wait();
-  chassis.pid_drive_set(6_in, 30);
+  chassis.pid_drive_set(6_in, 40);
   chassis.pid_wait();
 
   chassis.drive_set(80,80);
@@ -304,7 +311,7 @@ void Route_B_Side(){
   }
 
   //3.Put the pre-installed pin into the neutral goal
-  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
+  chassis.pid_drive_set(18_in, DRIVE_SPEED);
   Lift_move(360*2.5,false);
   chassis.pid_wait();
 
@@ -329,7 +336,7 @@ void Route_B_Side(){
   chassis.pid_wait();
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(4.5_in, 30);
+  chassis.pid_drive_set(5.5_in, 30);
   chassis.pid_wait();
 
 
@@ -347,6 +354,13 @@ void Route_B_Side(){
   chassis.pid_drive_toggle(true);
   claw.retract();
   pros::delay(250);
+  Lift_move(360*1);
+  chassis.pid_drive_set(-2_in, DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.drive_set(127,127);
+  pros::delay(250);
+  chassis.drive_set(0,0);
+  chassis.pid_drive_toggle(true);
 
   //5.put the second pin and cup into the allience goal
   chassis.pid_drive_set(-5.5_in, DRIVE_SPEED);
@@ -356,9 +370,9 @@ void Route_B_Side(){
   Lift_move_to(360*8);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(34_in, 50);
+  chassis.pid_drive_set(34_in, 70);
   chassis.pid_wait();
-  chassis.pid_drive_set(6_in, 30);
+  chassis.pid_drive_set(6_in, 40);
   chassis.pid_wait();
 
   chassis.drive_set(80,80);
