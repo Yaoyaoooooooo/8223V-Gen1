@@ -13,8 +13,11 @@ extern Drive chassis;
 inline pros::MotorGroup Lift({21,-2},pros::MotorGearset::green);
 inline pros::Motor Roller(6,pros::MotorGearset::green);
 inline pros::adi::Pneumatics claw('H', false);
-inline pros::adi::Pneumatics wings('G', false);
-
+inline pros::adi::Pneumatics left_wing('G', false);
+inline pros::adi::Pneumatics right_wing('B', false);
+inline pros::adi::Pneumatics knife('C', false);
+inline pros::adi::Pneumatics holder('E', false);
+inline pros::adi::DigitalIn touch('F');
 
 inline double Lift_target = 0;
 inline void Lift_move(int target, bool wait=true){

@@ -46,7 +46,7 @@ void initialize() {
 
   // Configure your chassis controls
   chassis.opcontrol_curve_buttons_toggle(true);   // Enables modifying the controller curve with buttons on the joysticks
-  chassis.opcontrol_drive_activebrake_set(0.0);   // Sets the active brake kP. We recommend ~2.  0 will disable.
+  chassis.opcontrol_drive_activebrake_set(2.0);   // Sets the active brake kP. We recommend ~2.  0 will disable.
   chassis.opcontrol_curve_default_set(0.0, 0.0);  // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)
 
   // Set the drive to your own constants from autons.cpp!
@@ -199,7 +199,7 @@ void ez_screen_task() {
     master.print(1, 0, "Left: %.1f",chassis.drive_sensor_left());
     pros::delay(50);
     // master.print(2, 0, "Right: %.1f",chassis.drive_sensor_right());
-    master.print(2, 0, "Lift: %.1f",Lift.get_position());
+    master.print(2, 0, "Roller: %.1f",Roller.get_position());
     pros::delay(50);
     // pros::delay(ez::util::DELAY_TIME);
   }
@@ -223,7 +223,7 @@ void ez_template_extras() {
     //  When enabled:
     //  * use A and Y to increment / decrement the constants
     //  * use the arrow keys to navigate the constants
-    if (master.get_digital_new_press(DIGITAL_X))
+    if (master.get_digital_new_press(DIGITAL_UP))
       chassis.pid_tuner_toggle();
 
     // Trigger the selected autonomous routine
@@ -301,44 +301,64 @@ void opcontrol() {
       chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
     }
 
+    static bool l2_r1_combo_used = false;
     static bool l2_r2_combo_used = false;
 
+    bool l1_pressed = master.get_digital(DIGITAL_L1);
     bool l2_pressed = master.get_digital(DIGITAL_L2);
+    bool r1_pressed = master.get_digital(DIGITAL_R1);
     bool r2_pressed = master.get_digital(DIGITAL_R2);
 
-    // L2 + R2 control wings
-    if (l2_pressed && r2_pressed && !l2_r2_combo_used) {
+
+    //R1+L2 contral Claw
+    if(r1_pressed && l2_pressed && !l2_r1_combo_used) {
+      claw.toggle();
+      l2_r1_combo_used = true;
+    }
+
+    //L2+R2 contral Roller
+    if(l2_pressed && r2_pressed && !l2_r2_combo_used) {
+      Roller.move_relative(180*2.5, 127);
       l2_r2_combo_used = true;
-      wings.toggle();
+    }
+
+    // L1&2 contral Lift
+    if(master.get_digital(DIGITAL_L1)) {
+      Lift.move(127);
+    }else if(master.get_digital(DIGITAL_L2) && !r1_pressed && !r2_pressed && !touch.get_value()) {
+      Lift.move(-127);
+    }else {
+      Lift.move(0);
+    }
+
+    // R1 control left wing
+    if(master.get_digital_new_press(DIGITAL_R1) && !l2_pressed) {
+      left_wing.toggle();
+    }
+
+    // R2 control right wing
+    if (master.get_digital_new_press(DIGITAL_R2) && !l2_r2_combo_used) {
+      right_wing.toggle();
     }
 
     // Reset after both buttons are released
     if (!l2_pressed && !r2_pressed) {
       l2_r2_combo_used = false;
     }
-
-    // L1&2 contral Lift
-    if(master.get_digital(DIGITAL_L1)) {
-      Lift.move(127);
-    }else if(master.get_digital(DIGITAL_L2) && !l2_r2_combo_used) {
-      Lift.move(-127);
-    }else {
-      Lift.move(0);
+    if (!l2_pressed && !r1_pressed) {
+      l2_r1_combo_used = false;
     }
 
-    //R1 contral Claw
-    if(master.get_digital_new_press(DIGITAL_R1)) claw.toggle();
-
-    //R2 contral Roller
-    // if(master.get_digital(DIGITAL_R2)&&!l2_r2_combo_used) {
-    //   Roller.move(100);
-    // }else {
-    //   Roller.move(0);
-    // }
-    if(master.get_digital_new_press(DIGITAL_R2)&&!l2_r2_combo_used) {
-      Roller.move_relative(180*2.5, 127);
+    //X control knife
+    if(master.get_digital_new_press(DIGITAL_X)){
+      knife.toggle();
     }
 
+    //A control holder
+    if(master.get_digital_new_press(DIGITAL_A)){
+      holder.toggle();
+    }
+    
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }

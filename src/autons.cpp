@@ -47,12 +47,12 @@ void Route_A_Front(){
   chassis.pid_drive_set(-11.5_in, DRIVE_SPEED);
   chassis.pid_wait();
   
-  chassis.pid_turn_relative_set(-52.5_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(-53_deg, TURN_SPEED);//少了，+0.5
   chassis.pid_wait();
   Lift_move_to(2*360,0);
   chassis.pid_drive_set(16_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(6.5_in, 30);
+  chassis.pid_drive_set(6.8_in, 30);
   chassis.pid_wait();
   claw.retract();
   pros::delay(200);
@@ -73,7 +73,7 @@ void Route_A_Front(){
   Lift_move_to(2*360,0);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(-42_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(-41_deg, TURN_SPEED);//多了，-0.5-0.5
   chassis.pid_wait();
 
   chassis.pid_drive_set(24_in, 80);
@@ -98,8 +98,10 @@ void Route_A_Front(){
   chassis.pid_wait();
 
   chassis.drive_set(50,50);
-  Lift_move(-360*2);
+  pros::delay(250);
+  Lift_move(-360*2,0);
   claw.extend();
+  pros::delay(250);
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
   pros::delay(100);
@@ -403,7 +405,7 @@ void default_constants() {
   // P, I, D, and Start I
   chassis.pid_drive_constants_set(20.0, 0.0, 115.0);         // Fwd/rev constants, used for odom and non odom motions
   chassis.pid_heading_constants_set(11.0, 0.0, 20.0);        // Holds the robot straight while going forward without odom
-  chassis.pid_turn_constants_set(3.0, 0.00, 12.0 , 20.0);     // Turn in place constants
+  chassis.pid_turn_constants_set(3.0, 0.00, 12.25 , 20.0);     // Turn in place constants
   chassis.pid_swing_constants_set(3.0, 0.0, 13.5);           // Swing constants
   chassis.pid_odom_angular_constants_set(6.5, 0.0, 52.5);    // Angular control for odom motions
   chassis.pid_odom_boomerang_constants_set(5.8, 0.0, 32.5);  // Angular control for boomerang motions
