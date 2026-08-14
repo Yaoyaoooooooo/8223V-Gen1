@@ -198,8 +198,8 @@ void ez_screen_task() {
     pros::delay(50);  
     master.print(1, 0, "Left: %.1f",chassis.drive_sensor_left());
     pros::delay(50);
-    // master.print(2, 0, "Right: %.1f",chassis.drive_sensor_right());
-    master.print(2, 0, "Roller: %.1f",Roller.get_position());
+    master.print(2, 0, "Right: %.1f",chassis.drive_sensor_right());
+    // master.print(2, 0, "Roller: %.1f",Roller.get_position());
     pros::delay(50);
     // pros::delay(ez::util::DELAY_TIME);
   }
@@ -284,8 +284,8 @@ void opcontrol() {
 
     int Left_Speed, Right_Speed;
     if(LeftY!=0&&RightX!=0){
-      Left_Speed = LeftY + RightX*0.78;
-      Right_Speed = LeftY - RightX*0.78;
+      Left_Speed = LeftY + RightX*0.85;
+      Right_Speed = LeftY - RightX*0.85;
     }else{
       Left_Speed = LeftY + RightX*0.5;
       Right_Speed = LeftY - RightX*0.5;
