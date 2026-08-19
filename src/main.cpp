@@ -51,6 +51,9 @@ void initialize() {
 
   // Set the drive to your own constants from autons.cpp!
   default_constants();
+  
+  Lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
   // chassis.opcontrol_curve_buttons_left_set(pros::E_CONTROLLER_DIGITAL_LEFT, pros::E_CONTROLLER_DIGITAL_RIGHT);  // If using tank, only the left side is used.
@@ -316,7 +319,7 @@ void opcontrol() {
 
     // L2+R2 control Roller
     if (l2_pressed && r2_pressed && !l2_r2_combo_used) {
-      Roller.move_relative(180*2.5, 127);
+      Roller.move_relative(270*2.5, 127);
       l2_r2_combo_used = true;
     }
 

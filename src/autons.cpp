@@ -19,7 +19,7 @@ void Route_A_Front(){
   Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   //2.turn the roller to allience's color
-  Roller.move_relative(360*2, 127);
+  Roller.move_relative(270*5, 127);
   while (std::fabs(
       Roller.get_target_position() -
       Roller.get_position()) > 5.0) {
@@ -27,7 +27,7 @@ void Route_A_Front(){
   }
 
   //3.Put the pre-installed pin into the allience goal
-  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
+  chassis.pid_drive_set(17_in, DRIVE_SPEED);
   Lift_move(360*2.5,false);
   chassis.pid_wait();
 
@@ -118,7 +118,7 @@ void Route_A_Side(){
   Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   //2.turn the roller to allience's color
-  Roller.move_relative(360*2, 127);
+  Roller.move_relative(270*5, 127);
   while (std::fabs(
       Roller.get_target_position() -
       Roller.get_position()) > 5.0) {
@@ -126,7 +126,7 @@ void Route_A_Side(){
   }
 
   //3.Put the pre-installed pin into the allience goal
-  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
+  chassis.pid_drive_set(17_in, DRIVE_SPEED);
   Lift_move(360*2.5,false);
   chassis.pid_wait();
 
@@ -217,7 +217,7 @@ void Route_B_Front(){
   Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   //2.turn the roller to allience's color
-  Roller.move_relative(360*2, 127);
+  Roller.move_relative(270*5, 127);
   while (std::fabs(
       Roller.get_target_position() -
       Roller.get_position()) > 5.0) {
@@ -225,7 +225,7 @@ void Route_B_Front(){
   }
 
   //3.Put the pre-installed pin into the neutral goal
-  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
+  chassis.pid_drive_set(17_in, DRIVE_SPEED);
   Lift_move(360*2.5,false);
   chassis.pid_wait();
 
@@ -280,8 +280,8 @@ void Route_B_Front(){
   chassis.pid_drive_set(-5.5_in, 50);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(98_deg, TURN_SPEED);
-  Lift_move_to(360*8);
+  chassis.pid_turn_relative_set(102_deg, TURN_SPEED);
+  Lift_move_to(360*10);
   chassis.pid_wait();
 
   chassis.pid_turn_relative_set(0_deg, TURN_SPEED);
@@ -311,7 +311,7 @@ void Route_B_Side(){
   Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   //2.turn the roller to allience's color
-  Roller.move_relative(360*2, 127);
+  Roller.move_relative(270*5, 127);
   while (std::fabs(
       Roller.get_target_position() -
       Roller.get_position()) > 5.0) {
@@ -319,7 +319,7 @@ void Route_B_Side(){
   }
 
   //3.Put the pre-installed pin into the neutral goal
-  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
+  chassis.pid_drive_set(17_in, DRIVE_SPEED);
   Lift_move(360*2.5,false);
   chassis.pid_wait();
 
@@ -375,8 +375,8 @@ void Route_B_Side(){
   chassis.pid_drive_set(-5.5_in, 50);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(-98_deg, TURN_SPEED);
-  Lift_move_to(360*8);
+  chassis.pid_turn_relative_set(-102_deg, TURN_SPEED);
+  Lift_move_to(360*10);
   chassis.pid_wait();
 
   chassis.pid_turn_relative_set(0_deg, TURN_SPEED);
