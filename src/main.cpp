@@ -301,7 +301,6 @@ void opcontrol() {
       chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
     }
 
-    static bool l2_r1_combo_used = false;
     static bool l2_r2_combo_used = false;
 
     bool l1_pressed = master.get_digital(DIGITAL_L1);
@@ -309,44 +308,39 @@ void opcontrol() {
     bool r1_pressed = master.get_digital(DIGITAL_R1);
     bool r2_pressed = master.get_digital(DIGITAL_R2);
 
-
-    //R1+L2 contral Claw
-    if(r1_pressed && l2_pressed && !l2_r1_combo_used) {
-      claw.toggle();
-      l2_r1_combo_used = true;
-    }
-
-    //L2+R2 contral Roller
-    if(l2_pressed && r2_pressed && !l2_r2_combo_used) {
-      Roller.move_relative(180*2.5, 127);
-      l2_r2_combo_used = true;
-    }
-
-    // L1&2 contral Lift
-    if(master.get_digital(DIGITAL_L1)) {
-      Lift.move(127);
-    }else if(master.get_digital(DIGITAL_L2) && !r1_pressed && !r2_pressed && !touch.get_value()) {
-      Lift.move(-127);
-    }else {
-      Lift.move(0);
-    }
-
-    // R1 control left wing
-    if(master.get_digital_new_press(DIGITAL_R1) && !l2_pressed) {
-      left_wing.toggle();
-    }
-
-    // R2 control right wing
-    if (master.get_digital_new_press(DIGITAL_R2) && !l2_r2_combo_used) {
-      right_wing.toggle();
-    }
-
     // Reset after both buttons are released
     if (!l2_pressed && !r2_pressed) {
       l2_r2_combo_used = false;
     }
-    if (!l2_pressed && !r1_pressed) {
-      l2_r1_combo_used = false;
+
+
+    // L2+R2 control Roller
+    if (l2_pressed && r2_pressed && !l2_r2_combo_used) {
+      Roller.move_relative(180*2.5, 127);
+      l2_r2_combo_used = true;
+    }
+
+
+    // R1 control Claw
+    if(master.get_digital_new_press(DIGITAL_R1)) {
+      claw.toggle();
+    }
+
+    // R2 control Wings
+    if(master.get_digital_new_press(DIGITAL_R2) && !l2_r2_combo_used) {
+      left_wing.toggle();
+      right_wing.toggle();
+    }
+
+    // L1&2 contral Lift
+    if(l1_pressed) {
+      opcontrol_autoLift = false;
+      Lift.move(127);
+    }else if(l2_pressed && !r2_pressed) {
+      opcontrol_autoLift = false;
+      Lift.move(touch.get_value() ? 0 : -127);
+    }else if(!opcontrol_autoLift) {
+      Lift.move(0);
     }
 
     //X control knife
@@ -358,7 +352,12 @@ void opcontrol() {
     if(master.get_digital_new_press(DIGITAL_A)){
       holder.toggle();
     }
+
+    // B control lift spin half cirle
+    if(master.get_digital_new_press(DIGITAL_B) && !master.get_digital(DIGITAL_DOWN)) {
+      Lift_move(360*1.5,false);
+    }
     
-    pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
+    pros::delay(50);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }

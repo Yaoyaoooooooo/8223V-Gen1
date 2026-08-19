@@ -20,7 +20,9 @@ inline pros::adi::Pneumatics holder('E', false);
 inline pros::adi::DigitalIn touch('F');
 
 inline double Lift_target = 0;
+inline bool opcontrol_autoLift = false;
 inline void Lift_move(int target, bool wait=true){
+    opcontrol_autoLift = true;
     Lift_target+=target;
     Lift.move_relative(target, 127);
     if (!wait) return;
@@ -30,6 +32,7 @@ inline void Lift_move(int target, bool wait=true){
             break;
         pros::delay(20);
     } 
+    opcontrol_autoLift = false;
 }
 
 inline void Lift_move_to(int target, bool wait=true){
