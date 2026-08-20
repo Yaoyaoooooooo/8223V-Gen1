@@ -302,15 +302,15 @@ void Route_B_Front(){
   chassis.pid_wait();
 
   chassis.drive_set(127, 127);
-  Lift_move(-360*1.5);
-  claw.extend();
+  Lift_move(-360*3);
+  // claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
   pros::delay(300);
 
   //6.move back 15in and prepare for the driver control
-  chassis.pid_drive_set(-15_in, DRIVE_SPEED);
-  chassis.pid_wait();
+  // chassis.pid_drive_set(-15_in, DRIVE_SPEED);
+  // chassis.pid_wait();
 
 }
 
@@ -400,15 +400,15 @@ void Route_B_Side(){
   chassis.pid_wait();
 
   chassis.drive_set(127, 127);
-  Lift_move(-360*1.5);
-  claw.extend();
+  Lift_move(-360*3);
+  // claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
   pros::delay(300);
 
   //6.move back 15in and prepare for the driver control
-  chassis.pid_drive_set(-15_in, DRIVE_SPEED);
-  chassis.pid_wait();
+  // chassis.pid_drive_set(-15_in, DRIVE_SPEED);
+  // chassis.pid_wait();
 }
 
 

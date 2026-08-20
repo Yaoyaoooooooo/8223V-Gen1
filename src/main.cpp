@@ -335,8 +335,14 @@ void opcontrol() {
     }
 
     // R2 control Roller
-    if(previous_r2 && !r2_pressed && !l2_r2_combo_used) {
-      Roller.move_relative(270*2.5, 127);
+    // if(previous_r2 && !r2_pressed && !l2_r2_combo_used) {
+    //   Roller.move_relative(270*2.5, 127);
+    // }
+
+    if (r2_pressed && !l2_pressed && !l2_r2_combo_used) {
+      Roller.move(127);
+    } else {
+      Roller.move(0);
     }
 
     // L1&2 contral Lift
