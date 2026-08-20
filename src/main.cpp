@@ -266,6 +266,10 @@ void opcontrol() {
   Lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
+  bool is_lift_bottom = touch.get_value();
+  bool continue_up = false;
+  bool previous_r2 = false;
+
   while (true) {
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
@@ -312,14 +316,15 @@ void opcontrol() {
     bool r2_pressed = master.get_digital(DIGITAL_R2);
 
     // Reset after both buttons are released
-    if (!l2_pressed && !r2_pressed) {
-      l2_r2_combo_used = false;
-    }
+    // if (!l2_pressed && !r2_pressed) {
+    //   l2_r2_combo_used = false;
+    // }
 
 
-    // L2+R2 control Roller
+    // L2+R2 control Wings
     if (l2_pressed && r2_pressed && !l2_r2_combo_used) {
-      Roller.move_relative(270*2.5, 127);
+      left_wing.toggle();
+      right_wing.toggle();
       l2_r2_combo_used = true;
     }
 
@@ -329,22 +334,74 @@ void opcontrol() {
       claw.toggle();
     }
 
-    // R2 control Wings
-    if(master.get_digital_new_press(DIGITAL_R2) && !l2_r2_combo_used) {
-      left_wing.toggle();
-      right_wing.toggle();
+    // R2 control Roller
+    if(previous_r2 && !r2_pressed && !l2_r2_combo_used) {
+      Roller.move_relative(270*2.5, 127);
     }
 
     // L1&2 contral Lift
-    if(l1_pressed) {
-      opcontrol_autoLift = false;
-      Lift.move(127);
-    }else if(l2_pressed && !r2_pressed) {
-      opcontrol_autoLift = false;
-      Lift.move(touch.get_value() ? 0 : -127);
-    }else if(!opcontrol_autoLift) {
+    if (l1_pressed) {
+      if (is_lift_bottom) {
+        if (touch.get_value()) {
+          // 从底部开始上升，touch仍然被压住
+          Lift.move(127);
+        } else {
+          // 上升后touch刚刚松开，立即停止
+          Lift.move(0);
+          is_lift_bottom = false;
+        }
+      } else if (continue_up) {
+        // 已经松开L1并重新按下
+        Lift.move(127);
+      } else {
+        // touch松开后，仍然按住第一次的L1
+        Lift.move(0);
+      }
+    } else if (l2_pressed && !r2_pressed) {
+      if (!touch.get_value()) {
+        Lift.move(-127);
+      } else {
+        // 下降碰到touch
+        Lift.move(0);
+        is_lift_bottom = true;
+        continue_up = false;
+      }
+    } else {
       Lift.move(0);
+
+      // touch松开并停止后，检测到L1已经松开
+      if (!is_lift_bottom) {
+        continue_up = true;
+      }
     }
+
+    // if(l1_pressed) {
+    //   if (is_lift_bottom) {
+    //     if (!touch_up.get_value()) {
+    //       Lift.move(127);
+    //     } else {
+    //       Lift.move(0);
+    //       is_lift_bottom = false;
+    //     }
+    //   } else if (continue_up) {
+    //     Lift.move(127);
+    //   } else {
+    //     Lift.move(0);
+    //   }
+    // }else if(l2_pressed && !r2_pressed) {
+    //   if(!touch.get_value()){
+    //     Lift.move(-127);
+    //   }else{
+    //     Lift.move(0); 
+    //     is_lift_bottom = true;
+    //     continue_up = false;
+    //   }
+    // }else {
+    //   Lift.move(0);
+    //   if(!is_lift_bottom){
+    //     continue_up = true;
+    //   }
+    // }
 
     //X control knife
     if(master.get_digital_new_press(DIGITAL_X)){
@@ -355,12 +412,13 @@ void opcontrol() {
     if(master.get_digital_new_press(DIGITAL_A)){
       holder.toggle();
     }
-
-    // B control lift spin half cirle
-    if(master.get_digital_new_press(DIGITAL_B) && !master.get_digital(DIGITAL_DOWN)) {
-      Lift_move(360*1.5,false);
-    }
     
-    pros::delay(50);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
+    previous_r2 = r2_pressed;
+
+    if (!l2_pressed && !r2_pressed) {
+      l2_r2_combo_used = false;
+    }
+
+    pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }

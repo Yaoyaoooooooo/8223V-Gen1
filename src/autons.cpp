@@ -20,15 +20,18 @@ void Route_A_Front(){
 
   //2.turn the roller to allience's color
   Roller.move_relative(270*5, 127);
+  const std::uint32_t start_time = pros::millis();
+
   while (std::fabs(
-      Roller.get_target_position() -
-      Roller.get_position()) > 5.0) {
+            Roller.get_target_position() -
+            Roller.get_position()) > 5.0 &&
+        pros::millis() - start_time < 1500) {
     pros::delay(20);
   }
 
   //3.Put the pre-installed pin into the allience goal
-  chassis.pid_drive_set(17_in, DRIVE_SPEED);
-  Lift_move(360*3.5,false);
+  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
+  Lift_move(360*4,false);
   chassis.pid_wait();
 
   chassis.pid_turn_set(90_deg, TURN_SPEED);
@@ -37,7 +40,7 @@ void Route_A_Front(){
   chassis.pid_drive_set(9_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.drive_set(80,80);
-  Lift_move(360*(-2.0));
+  Lift_move(360*(-2.5));
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -119,15 +122,18 @@ void Route_A_Side(){
 
   //2.turn the roller to allience's color
   Roller.move_relative(270*5, 127);
+  const std::uint32_t start_time = pros::millis();
+
   while (std::fabs(
-      Roller.get_target_position() -
-      Roller.get_position()) > 5.0) {
+            Roller.get_target_position() -
+            Roller.get_position()) > 5.0 &&
+        pros::millis() - start_time < 1500) {
     pros::delay(20);
   }
 
   //3.Put the pre-installed pin into the allience goal
-  chassis.pid_drive_set(17_in, DRIVE_SPEED);
-  Lift_move(360*3.5,false);
+  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
+  Lift_move(360*4,false);
   chassis.pid_wait();
 
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
@@ -136,7 +142,7 @@ void Route_A_Side(){
   chassis.pid_drive_set(9_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.drive_set(80,80);
-  Lift_move(360*(-2.0));
+  Lift_move(360*(-2.5));
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -218,15 +224,18 @@ void Route_B_Front(){
 
   //2.turn the roller to allience's color
   Roller.move_relative(270*5, 127);
+  const std::uint32_t start_time = pros::millis();
+
   while (std::fabs(
-      Roller.get_target_position() -
-      Roller.get_position()) > 5.0) {
+            Roller.get_target_position() -
+            Roller.get_position()) > 5.0 &&
+        pros::millis() - start_time < 1500) {
     pros::delay(20);
   }
 
   //3.Put the pre-installed pin into the neutral goal
-  chassis.pid_drive_set(17_in, DRIVE_SPEED);
-  Lift_move(360*3.5,false);
+  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
+  Lift_move(360*4,false);
   chassis.pid_wait();
 
   chassis.pid_turn_set(90_deg, TURN_SPEED);
@@ -235,7 +244,7 @@ void Route_B_Front(){
   chassis.pid_drive_set(9_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.drive_set(80,80);
-  Lift_move(360*(-2.0));
+  Lift_move(360*(-2.5));
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -280,7 +289,7 @@ void Route_B_Front(){
   chassis.pid_drive_set(-5.5_in, 50);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(102_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(98_deg, TURN_SPEED);
   Lift_move_to(360*10);
   chassis.pid_wait();
 
@@ -292,7 +301,7 @@ void Route_B_Front(){
   chassis.pid_drive_set(6_in, 40);
   chassis.pid_wait();
 
-  chassis.drive_set(80,80);
+  chassis.drive_set(127, 127);
   Lift_move(-360*1.5);
   claw.extend();
   chassis.drive_set(0,0);
@@ -312,15 +321,18 @@ void Route_B_Side(){
 
   //2.turn the roller to allience's color
   Roller.move_relative(270*5, 127);
+  const std::uint32_t start_time = pros::millis();
+
   while (std::fabs(
-      Roller.get_target_position() -
-      Roller.get_position()) > 5.0) {
+            Roller.get_target_position() -
+            Roller.get_position()) > 5.0 &&
+        pros::millis() - start_time < 1500) {
     pros::delay(20);
   }
 
   //3.Put the pre-installed pin into the neutral goal
-  chassis.pid_drive_set(17_in, DRIVE_SPEED);
-  Lift_move(360*3.5,false);
+  chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
+  Lift_move(360*4,false);
   chassis.pid_wait();
 
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
@@ -329,7 +341,7 @@ void Route_B_Side(){
   chassis.pid_drive_set(9_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.drive_set(80,80);
-  Lift_move(360*(-2.0));
+  Lift_move(360*(-2.5));
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -375,7 +387,7 @@ void Route_B_Side(){
   chassis.pid_drive_set(-5.5_in, 50);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(-102_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(-98_deg, TURN_SPEED);
   Lift_move_to(360*10);
   chassis.pid_wait();
 
@@ -387,7 +399,7 @@ void Route_B_Side(){
   chassis.pid_drive_set(6_in, 40);
   chassis.pid_wait();
 
-  chassis.drive_set(80,80);
+  chassis.drive_set(127, 127);
   Lift_move(-360*1.5);
   claw.extend();
   chassis.drive_set(0,0);
