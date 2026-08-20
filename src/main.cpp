@@ -8,7 +8,7 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {5, -1, -16},     // Left Chassis Ports (negative port will reverse it!)
+    {5, -1, -15},     // Left Chassis Ports (negative port will reverse it!)
     {-11, 3, 4},  // Right Chassis Ports (negative port will reverse it!)
 
     20,      // IMU Port
@@ -336,7 +336,7 @@ void opcontrol() {
 
     // R2 control Roller
     // if(previous_r2 && !r2_pressed && !l2_r2_combo_used) {
-    //   Roller.move_relative(270*2.5, 127);
+    //   Roller.move_relative(180*5*3, 127);
     // }
 
     if (r2_pressed && !l2_pressed && !l2_r2_combo_used) {
@@ -349,33 +349,26 @@ void opcontrol() {
     if (l1_pressed) {
       if (is_lift_bottom) {
         if (touch.get_value()) {
-          // 从底部开始上升，touch仍然被压住
           Lift.move(127);
         } else {
-          // 上升后touch刚刚松开，立即停止
           Lift.move(0);
           is_lift_bottom = false;
         }
       } else if (continue_up) {
-        // 已经松开L1并重新按下
         Lift.move(127);
       } else {
-        // touch松开后，仍然按住第一次的L1
         Lift.move(0);
       }
     } else if (l2_pressed && !r2_pressed) {
       if (!touch.get_value()) {
         Lift.move(-127);
       } else {
-        // 下降碰到touch
         Lift.move(0);
         is_lift_bottom = true;
         continue_up = false;
       }
     } else {
       Lift.move(0);
-
-      // touch松开并停止后，检测到L1已经松开
       if (!is_lift_bottom) {
         continue_up = true;
       }

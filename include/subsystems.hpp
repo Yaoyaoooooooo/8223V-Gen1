@@ -21,10 +21,36 @@ inline pros::adi::DigitalIn touch('F');
 inline pros::adi::DigitalIn touch_up('D');
 
 inline double Lift_target = 0;
+
+inline void Roller_move(
+    double degrees,
+    std::uint32_t timeout = 3000
+) {
+    if (degrees == 0) {
+        Roller.move(0);
+        return;
+    }
+
+    const double start_position = Roller.get_position();
+    const std::uint32_t start_time = pros::millis();
+
+    Roller.move(degrees > 0 ? 127 : -127);
+
+    while (
+        std::fabs(Roller.get_position() - start_position) <
+            std::fabs(degrees) &&
+        pros::millis() - start_time < timeout
+    ) {
+        pros::delay(10);
+    }
+
+    Roller.move(0);
+}
+
 inline void Lift_move(int target, bool wait=true){
     target = target/2;
     Lift_target+=target;
-    Lift.move_relative(target, 127);
+    Lift.move_relative(target, 200);
     if (!wait) return;
     int start_time = pros::millis();
     while (std::fabs(Lift_target - Lift.get_position()) > 5.0) {
@@ -37,7 +63,7 @@ inline void Lift_move(int target, bool wait=true){
 inline void Lift_move_to(int target, bool wait=true){
     target = target/2;
     Lift_target=target;
-    Lift.move_absolute(target, 127);
+    Lift.move_absolute(target, 200);
     if (!wait) return;
     int start_time = pros::millis();
     while (std::fabs(Lift_target - Lift.get_position()) > 5.0) {

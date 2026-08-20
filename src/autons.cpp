@@ -1,4 +1,5 @@
 #include "main.h"
+#include "subsystems.hpp"
 
 /////
 // For installation, upgrading, documentations, and tutorials, check out our website!
@@ -12,22 +13,21 @@ const int SWING_SPEED = 110;
 
 //My Route
 
-void Route_A_Front(){
+namespace {
+  void beginOfRoute() {
+    //1.init subsystem's motor brake mode
+    Lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-  //1.init subsystem's motor brake mode
-  Lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    Lift.tare_position();
 
-  //2.turn the roller to allience's color
-  Roller.move_relative(270*5, 127);
-  const std::uint32_t start_time = pros::millis();
-
-  while (std::fabs(
-            Roller.get_target_position() -
-            Roller.get_position()) > 5.0 &&
-        pros::millis() - start_time < 1500) {
-    pros::delay(20);
+    //2.turn the roller to allience's color
+    Roller_move(180*5*3, 1500);
   }
+} //namespace
+
+void Route_A_Front(){
+  beginOfRoute();
 
   //3.Put the pre-installed pin into the allience goal
   chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
@@ -116,20 +116,7 @@ void Route_A_Front(){
 }
 
 void Route_A_Side(){
-  //1.init subsystem's motor brake mode
-  Lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-
-  //2.turn the roller to allience's color
-  Roller.move_relative(270*5, 127);
-  const std::uint32_t start_time = pros::millis();
-
-  while (std::fabs(
-            Roller.get_target_position() -
-            Roller.get_position()) > 5.0 &&
-        pros::millis() - start_time < 1500) {
-    pros::delay(20);
-  }
+  beginOfRoute();
 
   //3.Put the pre-installed pin into the allience goal
   chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
@@ -218,20 +205,7 @@ void Route_A_Side(){
 }
 
 void Route_B_Front(){
-  //1.init subsystem's motor brake mode
-  Lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-
-  //2.turn the roller to allience's color
-  Roller.move_relative(270*5, 127);
-  const std::uint32_t start_time = pros::millis();
-
-  while (std::fabs(
-            Roller.get_target_position() -
-            Roller.get_position()) > 5.0 &&
-        pros::millis() - start_time < 1500) {
-    pros::delay(20);
-  }
+  beginOfRoute();
 
   //3.Put the pre-installed pin into the neutral goal
   chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
@@ -259,7 +233,7 @@ void Route_B_Front(){
   chassis.pid_wait();
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(4_in, 30);
+  chassis.pid_drive_set(5_in, 30);
   chassis.pid_wait();
 
   chassis.pid_swing_relative_set(ez::LEFT_SWING, 45_deg, SWING_SPEED);
@@ -268,7 +242,7 @@ void Route_B_Front(){
   // chassis.pid_turn_set(180_deg, TURN_SPEED);
   // chassis.pid_wait();
 
-  chassis.drive_set(20,20);
+  chassis.drive_set(80,80);
   pros::delay(500);
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -289,24 +263,28 @@ void Route_B_Front(){
   chassis.pid_drive_set(-5.5_in, 50);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(98_deg, TURN_SPEED);
-  Lift_move_to(360*10);
+  chassis.pid_turn_relative_set(135_deg, TURN_SPEED);
+  Lift_move_to(360*9);
   chassis.pid_wait();
-
+  
+  
   chassis.pid_turn_relative_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(34_in, 70);
+  chassis.pid_drive_set(8_in, 70);
   chassis.pid_wait();
-  chassis.pid_drive_set(6_in, 40);
+
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
 
   chassis.drive_set(127, 127);
-  Lift_move(-360*3);
+  Lift_move(-360*4);
   // claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
-  pros::delay(300);
 
   //6.move back 15in and prepare for the driver control
   // chassis.pid_drive_set(-15_in, DRIVE_SPEED);
@@ -315,20 +293,7 @@ void Route_B_Front(){
 }
 
 void Route_B_Side(){
-  //1.init subsystem's motor brake mode
-  Lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-  Roller.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-
-  //2.turn the roller to allience's color
-  Roller.move_relative(270*5, 127);
-  const std::uint32_t start_time = pros::millis();
-
-  while (std::fabs(
-            Roller.get_target_position() -
-            Roller.get_position()) > 5.0 &&
-        pros::millis() - start_time < 1500) {
-    pros::delay(20);
-  }
+  beginOfRoute();
 
   //3.Put the pre-installed pin into the neutral goal
   chassis.pid_drive_set(17.5_in, DRIVE_SPEED);
@@ -356,7 +321,7 @@ void Route_B_Side(){
   chassis.pid_wait();
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(4_in, 30);
+  chassis.pid_drive_set(5_in, 30);
   chassis.pid_wait();
 
 
@@ -366,10 +331,11 @@ void Route_B_Side(){
   // chassis.pid_turn_set(-180_deg, TURN_SPEED);
   // chassis.pid_wait();
 
-  chassis.drive_set(20,20);
+  chassis.drive_set(80,80);
   pros::delay(500);
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
+
   claw.retract();
   pros::delay(250);
 
@@ -387,28 +353,34 @@ void Route_B_Side(){
   chassis.pid_drive_set(-5.5_in, 50);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(-98_deg, TURN_SPEED);
-  Lift_move_to(360*10);
+  chassis.pid_turn_relative_set(-135_deg, TURN_SPEED);
+  Lift_move_to(360*9);
   chassis.pid_wait();
-
+  
+  
   chassis.pid_turn_relative_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(34_in, 70);
+  chassis.pid_drive_set(8_in, 70);
   chassis.pid_wait();
-  chassis.pid_drive_set(6_in, 40);
+
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
 
   chassis.drive_set(127, 127);
-  Lift_move(-360*3);
+  Lift_move(-360*4);
   // claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
-  pros::delay(300);
 
   //6.move back 15in and prepare for the driver control
   // chassis.pid_drive_set(-15_in, DRIVE_SPEED);
   // chassis.pid_wait();
+  
+
 }
 
 
