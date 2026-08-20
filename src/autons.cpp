@@ -28,7 +28,7 @@ void Route_A_Front(){
 
   //3.Put the pre-installed pin into the allience goal
   chassis.pid_drive_set(17_in, DRIVE_SPEED);
-  Lift_move(360*2.5,false);
+  Lift_move(360*3.5,false);
   chassis.pid_wait();
 
   chassis.pid_turn_set(90_deg, TURN_SPEED);
@@ -37,7 +37,7 @@ void Route_A_Front(){
   chassis.pid_drive_set(9_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.drive_set(80,80);
-  Lift_move(360*(-1.0));
+  Lift_move(360*(-2.0));
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -59,13 +59,13 @@ void Route_A_Front(){
 
   //5.put the second pin and cup into the allience goal
   chassis.pid_turn_relative_set(129_deg, TURN_SPEED);
-  Lift_move(360*5.5,false);
+  Lift_move(360*6.5,false);
   chassis.pid_wait();
   chassis.pid_drive_set(8_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(4_in, 50);
   chassis.pid_wait();
-  Lift_move(-360*1.5);
+  Lift_move(-360*2.5);
   claw.extend();
 
   //6.move back and get the third pin with the cup
@@ -86,7 +86,7 @@ void Route_A_Front(){
 
   //7.put the third pin and cup into the neutral goal
   chassis.pid_drive_set(-26_in, DRIVE_SPEED);
-  Lift_move(360*8,false);
+  Lift_move(360*10,false);
   chassis.pid_wait();
 
   chassis.pid_turn_relative_set(123_deg, TURN_SPEED);
@@ -99,7 +99,7 @@ void Route_A_Front(){
 
   chassis.drive_set(50,50);
   pros::delay(250);
-  Lift_move(-360*2,0);
+  Lift_move(-360*3,0);
   claw.extend();
   pros::delay(250);
   chassis.drive_set(0,0);
@@ -127,7 +127,7 @@ void Route_A_Side(){
 
   //3.Put the pre-installed pin into the allience goal
   chassis.pid_drive_set(17_in, DRIVE_SPEED);
-  Lift_move(360*2.5,false);
+  Lift_move(360*3.5,false);
   chassis.pid_wait();
 
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
@@ -136,7 +136,7 @@ void Route_A_Side(){
   chassis.pid_drive_set(9_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.drive_set(80,80);
-  Lift_move(360*(-1.0));
+  Lift_move(360*(-2.0));
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -158,13 +158,13 @@ void Route_A_Side(){
 
   //5.put the second pin and cup into the allience goal
   chassis.pid_turn_relative_set(-129_deg, TURN_SPEED);
-  Lift_move(360*5.5,false);
+  Lift_move(360*6.5,false);
   chassis.pid_wait();
   chassis.pid_drive_set(8_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.pid_drive_set(4_in, 50);
   chassis.pid_wait();
-  Lift_move(-360*1.5);
+  Lift_move(-360*2.5);
   claw.extend();
 
   //6.move back and get the third pin with the cup
@@ -185,7 +185,7 @@ void Route_A_Side(){
 
   //7.put the third pin and cup into the neutral goal
   chassis.pid_drive_set(-26_in, DRIVE_SPEED);
-  Lift_move(360*8,false);
+  Lift_move(360*10,false);
   chassis.pid_wait();
 
   chassis.pid_turn_relative_set(-123_deg, TURN_SPEED);
@@ -198,7 +198,7 @@ void Route_A_Side(){
 
   chassis.drive_set(50,50);
   pros::delay(250);
-  Lift_move(-360*2,0);
+  Lift_move(-360*3,0);
   claw.extend();
   pros::delay(250);
   chassis.drive_set(0,0);
@@ -226,7 +226,7 @@ void Route_B_Front(){
 
   //3.Put the pre-installed pin into the neutral goal
   chassis.pid_drive_set(17_in, DRIVE_SPEED);
-  Lift_move(360*2.5,false);
+  Lift_move(360*3.5,false);
   chassis.pid_wait();
 
   chassis.pid_turn_set(90_deg, TURN_SPEED);
@@ -235,7 +235,7 @@ void Route_B_Front(){
   chassis.pid_drive_set(9_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.drive_set(80,80);
-  Lift_move(360*(-1.6));
+  Lift_move(360*(-2.0));
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -320,7 +320,7 @@ void Route_B_Side(){
 
   //3.Put the pre-installed pin into the neutral goal
   chassis.pid_drive_set(17_in, DRIVE_SPEED);
-  Lift_move(360*2.5,false);
+  Lift_move(360*3.5,false);
   chassis.pid_wait();
 
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
@@ -329,7 +329,7 @@ void Route_B_Side(){
   chassis.pid_drive_set(9_in, DRIVE_SPEED);
   chassis.pid_wait();
   chassis.drive_set(80,80);
-  Lift_move(360*(-1.6));
+  Lift_move(360*(-2.0));
   claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
