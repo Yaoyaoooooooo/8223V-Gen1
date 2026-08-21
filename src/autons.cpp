@@ -76,7 +76,7 @@ void Route_A_Front(){
   Lift_move_to(2*360,0);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(-42.5_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(-41.5_deg, TURN_SPEED);
   chassis.pid_wait();
 
   chassis.pid_drive_set(24_in, 80);
@@ -92,17 +92,17 @@ void Route_A_Front(){
   Lift_move(360*10,false);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(123_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(124_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(36_in, DRIVE_SPEED);
+  chassis.pid_drive_set(43_in, 80);
   chassis.pid_wait();
-  chassis.pid_drive_set(10_in, 30);
-  chassis.pid_wait();
+  // chassis.pid_drive_set(10_in, 30);
+  // chassis.pid_wait();
 
   chassis.drive_set(50,50);
   pros::delay(250);
-  Lift_move(-360*3,0);
+  Lift_move(-360*4,1);
   claw.extend();
   pros::delay(250);
   chassis.drive_set(0,0);
@@ -165,7 +165,7 @@ void Route_A_Side(){
   Lift_move_to(2*360,0);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(42.5_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(41.5_deg, TURN_SPEED);
   chassis.pid_wait();
 
   chassis.pid_drive_set(24_in, 80);
@@ -181,17 +181,17 @@ void Route_A_Side(){
   Lift_move(360*10,false);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(-123_deg, TURN_SPEED);
+  chassis.pid_turn_relative_set(-124_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(36_in, DRIVE_SPEED);
+  chassis.pid_drive_set(43_in, 80);
   chassis.pid_wait();
-  chassis.pid_drive_set(10_in, 30);
-  chassis.pid_wait();
+  // chassis.pid_drive_set(10_in, 30);
+  // chassis.pid_wait();
 
   chassis.drive_set(50,50);
   pros::delay(250);
-  Lift_move(-360*3,0);
+  Lift_move(-360*4,1);
   claw.extend();
   pros::delay(250);
   chassis.drive_set(0,0);
