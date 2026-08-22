@@ -102,8 +102,9 @@ void Route_A_Front(){
 
   chassis.drive_set(50,50);
   pros::delay(250);
-  Lift_move(-360*4,1);
+  Lift_move(-360*2,1);
   claw.extend();
+  Lift_move(-360*2,1);
   pros::delay(250);
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -233,7 +234,7 @@ void Route_B_Front(){
   chassis.pid_wait();
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(5_in, 30);
+  chassis.pid_drive_set(4_in, 30);
   chassis.pid_wait();
 
   chassis.pid_swing_relative_set(ez::LEFT_SWING, 45_deg, SWING_SPEED);
@@ -249,7 +250,7 @@ void Route_B_Front(){
   claw.retract();
   pros::delay(250);
 
-  Lift_move_to(360*2);
+  Lift_move_to(360*2,0);
 
   // Lift_move(360*1);
   // chassis.pid_drive_set(-2_in, DRIVE_SPEED);
@@ -263,7 +264,7 @@ void Route_B_Front(){
   chassis.pid_drive_set(-5.5_in, 50);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(135_deg, TURN_SPEED);
+  chassis.pid_turn_set(-40_deg, TURN_SPEED);
   Lift_move_to(360*9);
   chassis.pid_wait();
   
@@ -271,17 +272,17 @@ void Route_B_Front(){
   chassis.pid_turn_relative_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(8_in, 70);
+  chassis.pid_drive_set(14_in, 70);
   chassis.pid_wait();
 
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_turn_set(88_deg, TURN_SPEED);
   chassis.pid_wait();
 
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
 
   chassis.drive_set(127, 127);
-  Lift_move(-360*4);
+  Lift_move(-360*5);
   // claw.extend();
   chassis.drive_set(0,0);
   chassis.pid_drive_toggle(true);
@@ -321,7 +322,7 @@ void Route_B_Side(){
   chassis.pid_wait();
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
   chassis.pid_wait();
-  chassis.pid_drive_set(5_in, 30);
+  chassis.pid_drive_set(4_in, 30);
   chassis.pid_wait();
 
 
@@ -339,7 +340,7 @@ void Route_B_Side(){
   claw.retract();
   pros::delay(250);
 
-  Lift_move_to(360*2);
+  Lift_move_to(360*2,0);
 
   // Lift_move(360*1);
   // chassis.pid_drive_set(-2_in, DRIVE_SPEED);
@@ -353,7 +354,7 @@ void Route_B_Side(){
   chassis.pid_drive_set(-5.5_in, 50);
   chassis.pid_wait();
 
-  chassis.pid_turn_relative_set(-135_deg, TURN_SPEED);
+  chassis.pid_turn_set(40_deg, TURN_SPEED);
   Lift_move_to(360*9);
   chassis.pid_wait();
   
@@ -361,10 +362,10 @@ void Route_B_Side(){
   chassis.pid_turn_relative_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(8_in, 70);
+  chassis.pid_drive_set(14_in, 70);
   chassis.pid_wait();
 
-  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_turn_set(-88_deg, TURN_SPEED);
   chassis.pid_wait();
 
   chassis.pid_drive_set(12_in, DRIVE_SPEED);
